@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #111;
+      font-family: 'DotGothic16', sans-serif;
+      color: #fff;
+    }
+
+    .menu-container {
+      width: 200px;             
+      padding: 10px;
+      margin: 20px auto;
+      background: #222;
+      border: 2px solid #555;
+      border-radius: 10px;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 36px;      
+      height: 20px;     
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #666;
+      transition: .3s;
+      border-radius: 20px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #3fa7ff;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(16px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="menu-container">
+    <div class="toggle-row">
+      <span>一撃</span>
+      <label class="switch">
+        <input type="checkbox" id="changeHP" onclick="changeHP()">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <!--機能追加するなら上の<div class="menu-conteainer">から</div>までを真似る-->
+  </div>
+
+  <script>
+    h5gg.require(7.9);
+
+    const h5frida = h5gg.loadPlugin("h5frida", "h5frida-15.1.24.dylib");
+    if (!h5frida) throw "h5fridaがインジェクトされていません";
+
+    function ActiveCodePatch(file_patch, vaddr, bytes) {
+      if (!h5frida.ActiveCodePatch(file_patch, vaddr, bytes)) {
+        const result = h5frida.ApplyCodePatch(file_patch, vaddr, bytes);
+        alert(`変更完了`);
+        return false;
+      }
+      return true;
+    }
+
+    function DeactiveCodePatch(file_patch, vaddr, bytes) {
+      return h5frida.DeactiveCodePatch(file_patch, vaddr, bytes);
+    }
+
+    const patch_file = "YWP";
+    function binary(id, patches) {
+      const checkbox = document.getElementById(id);
+      if (!h5frida) {
+        alert("実行ファイルが置き換わっていない、又は不具合が生じています");
+        return;
+      }
+      patches.forEach(([addr, bytes]) => {
+        if (checkbox && checkbox.checked) {
+          ActiveCodePatch(patch_file, addr, bytes);
+        } else {
+          DeactiveCodePatch(patch_file, addr, bytes);
+        }
+      });
+      if (checkbox) saveFeatureState(id, checkbox.checked);
+    }
+    //機能追加するならjsはここから↓
+    const offset = {
+      HP: 0xDCCC0,
+    };
+
+    function changeHP() {
+      binary("changeHP", [
+        [offset.HP, "76070091"]
+      ]);
+    }
+  </script>
+</body>
+</html>
