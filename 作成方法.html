@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+<h2>非脱獄で作成&動作するIosmodの作成方法を紹介します。</h2>
+<h4>---まず作成に当たって必要なファイル---</h4>
+<ul>
+    <li>1,h5frida-15.1.24.dylib(15.1.24でなくても作成できます) <a href="https://github.com/H5GG/H5GG/blob/main/examples-h5frida/h5frida-15.1.24.dylib">入手</a></li>
+    <li>2,frida-gadget-15.1.24.dylib <a href="https://github.com/H5GG/H5GG/tree/main/examples-h5frida/frida-server(non-jailbreak)">入手</a></li>
+    <li>3,frida-gadget-15.1.24.config <a href="https://github.com/H5GG/H5GG/tree/main/examples-h5frida/frida-server(non-jailbreak)">入手</a></li>
+    <li>H5GG <a href="https://github.com/H5GG/H5GG/tree/main/packages">入手</a></li>
+    <li>パッチするhtmlファイル</li>
+</ul>
+<h4>---作成手順---</h4>
+<b>Esign導入済み前提でお話します。</b>
+<br>
+<span>必要なファイルからhtml以外のものをダウンロードしてください。</span>
+<br>
+<span>まずHTMLファイルにコードを記述します。(コードのテンプレートと拡張方法は別のファイルに記述します。)</span>
+<br>
+<span>つぎに自分が作成したいmodのIPAを用意します。</span>
+<br>
+<span><a href="https://decrypt.day">IPA入手サイト</a></span>
+<br>
+<span>Esignに<b>.config</b>と<b>HTMLファイル</b>以外を右上の...からImportしてください。</span>
+<br>
+<span>EsignにImportしたその.ipaをタップしてUnzipを選択してください。</span>
+<br>
+<span>Payloadというファイルが作成されると思います。</span>
+<br>
+<span>そこを開くと<ゲーム名>.appというファイルがあると思いますのでそこをタップしてView Fileという項目を選択してください。</span>
+<br>
+<span>そこに右上の...から先程ダウンロードしたファイルの中からfrida-gadget-15.1.24<b>.config</b>をImportしてください。</span>
+<br>
+<span></span>
+</html>
+
+
